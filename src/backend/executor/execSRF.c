@@ -417,6 +417,7 @@ no_function_result:
 	 */
 	if (rsinfo.setDesc)
 	{
+		elog(LOG, "Validating tupledesc for %s", get_func_name(setexpr->func.fn_oid));
 		tupledesc_match(expectedDesc, rsinfo.setDesc);
 
 		/*
@@ -908,7 +909,11 @@ ExecPrepareTuplestoreResult(SetExprState *sexpr,
 	if (resultDesc)
 	{
 		if (sexpr->funcResultDesc)
+		{
+			elog(LOG, "Validating tupledesc for %s", get_func_name(sexpr->func.fn_oid));
 			tupledesc_match(sexpr->funcResultDesc, resultDesc);
+		}
+
 
 		/*
 		 * If it is a dynamically-allocated TupleDesc, free it: it is
